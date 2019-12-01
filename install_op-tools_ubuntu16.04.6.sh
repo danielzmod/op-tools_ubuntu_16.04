@@ -22,6 +22,9 @@ sudo apt install libarchive-dev
 # python-qt4
 sudo apt install python-qt4
 
+# Install dependencies for matplotlib (needed to make pip install work in later step)
+sudo apt install libpng-dev libfreetype6-dev
+
 # zeromq
 curl -LO https://github.com/zeromq/libzmq/releases/download/v4.2.3/zeromq-4.2.3.tar.gz
 tar xfz zeromq-4.2.3.tar.gz
@@ -39,21 +42,21 @@ pushd capnproto-c++-0.6.1
 ./configure --prefix=/usr/local CPPFLAGS=-DPIC CFLAGS=-fPIC CXXFLAGS=-fPIC LDFLAGS=-fPIC --disable-shared --enable-static
 make -j4
 sudo make install
+popd
+rm -rf capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 
-cd ..
 git clone https://github.com/commaai/c-capnproto.git
-cd c-capnproto
+pushd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
 CFLAGS="-fPIC" ./configure --prefix=/usr/local
 make -j4
 sudo make install
 popd
-
-# Install dependencies for matplotlib (needed to make pip install work in later step)
-sudo apt install libpng-dev libfreetype6-dev
+rm -rf capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 
 # clone and create virtualenv for openpilot
+cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
 pushd openpilot
 pipenv install # Install dependencies in a virtualenv
@@ -82,8 +85,8 @@ echo "Run these two commands inside the virtual environment to finish the instal
 echo "cd tools"
 echo "pip install -r requirements.txt"
 echo ""
-exho "###################################################################################"
-echo "Activting virtual environment..."
+echo "###################################################################################"
+echo "Activating virtual environment..."
 
 pipenv shell # Activate the virtualenv
 
