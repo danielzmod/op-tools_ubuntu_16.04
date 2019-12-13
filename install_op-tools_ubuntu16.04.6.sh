@@ -23,7 +23,7 @@ sudo apt install libarchive-dev
 sudo apt install python-qt4
 
 # Install dependencies for matplotlib (needed to make pip install work in later step)
-sudo apt install libpng-dev libfreetype6-dev
+#sudo apt install libpng-dev libfreetype6-dev
 
 # zeromq
 curl -LO https://github.com/zeromq/libzmq/releases/download/v4.2.3/zeromq-4.2.3.tar.gz
@@ -69,7 +69,8 @@ popd
 popd
 
 # 5. Add openpilot to your PYTHONPATH
-echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc
+#echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc Using safe assignment instead. To avoid problems with path starting with colon.
+echo 'export PYTHONPATr="/home/openpilot/openpilot"' >> ~/.bashrc
 source ~/.bashrc
 
 # 6. Add folders to root
