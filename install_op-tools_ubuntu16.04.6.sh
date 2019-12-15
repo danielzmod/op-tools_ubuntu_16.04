@@ -34,6 +34,7 @@ pushd zeromq-4.2.3
 make
 sudo make install
 popd
+rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz 
 
 # 2. capnproto
 curl -O https://capnproto.org/capnproto-c++-0.6.1.tar.gz
@@ -43,7 +44,6 @@ pushd capnproto-c++-0.6.1
 make -j4
 sudo make install
 popd
-rm -rf capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 
 git clone https://github.com/commaai/c-capnproto.git
 pushd c-capnproto
@@ -53,7 +53,7 @@ CFLAGS="-fPIC" ./configure --prefix=/usr/local
 make -j4
 sudo make install
 popd
-rm -rf capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
+rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 
 # clone and create virtualenv for openpilot
 cd # Clone into home directory root
@@ -70,7 +70,7 @@ popd
 
 # 5. Add openpilot to your PYTHONPATH
 #echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc Using safe assignment instead. To avoid problems with path starting with colon.
-echo 'export PYTHONPATr="/home/openpilot/openpilot"' >> ~/.bashrc
+echo 'export PYTHONPATH="/home/openpilot/openpilot"' >> ~/.bashrc
 source ~/.bashrc
 
 # 6. Add folders to root
