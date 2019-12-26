@@ -23,7 +23,7 @@ sudo apt install libarchive-dev
 sudo apt install python-qt4
 
 # Install dependencies for matplotlib (needed to make pip install work in later step)
-#sudo apt install libpng-dev libfreetype6-dev
+sudo apt install libpng-dev libfreetype6-dev
 
 # zeromq
 curl -LO https://github.com/zeromq/libzmq/releases/download/v4.2.3/zeromq-4.2.3.tar.gz
@@ -58,7 +58,9 @@ rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 # clone and create virtualenv for openpilot
 cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
+git checkout v0.6.6 # Checkout v0.6.6
 pushd openpilot
+OPPATH=$(pwd) # Store directory for PYTHONPATH
 pipenv install # Install dependencies in a virtualenv
 
 # 4. Clone tools within openpilot, and install dependencies
@@ -70,7 +72,7 @@ popd
 
 # 5. Add openpilot to your PYTHONPATH
 #echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc Using safe assignment instead. To avoid problems with path starting with colon.
-echo 'export PYTHONPATH="/home/openpilot/openpilot"' >> ~/.bashrc
+echo 'export PYTHONPATH='$OPPATH >> ~/.bashrc
 source ~/.bashrc
 
 # 6. Add folders to root
