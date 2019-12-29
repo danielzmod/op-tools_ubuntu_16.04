@@ -13,7 +13,7 @@ cd op_tools_installer
 ./1_install_op-tools_ubuntu16.04.6.sh
 ```
 
-After installation dont forget the activate the virtual environment by doing 
+When rebooting or starting a new terminal dont forget to activate the virtual environment by doing 
 ```bash
 cd openpilot
 pipenv shell # Activate virtual environment
