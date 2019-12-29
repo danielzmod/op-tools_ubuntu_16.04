@@ -31,7 +31,7 @@ tar xfz zeromq-4.2.3.tar.gz
 pushd zeromq-4.2.3
 ./autogen.sh
 ./configure CPPFLAGS=-DPIC CFLAGS=-fPIC CXXFLAGS=-fPIC LDFLAGS=-fPIC --disable-shared --enable-static
-make
+make -j$(nproc)
 sudo make install
 popd
 rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz 
@@ -41,7 +41,7 @@ curl -O https://capnproto.org/capnproto-c++-0.6.1.tar.gz
 tar xvf capnproto-c++-0.6.1.tar.gz
 pushd capnproto-c++-0.6.1
 ./configure --prefix=/usr/local CPPFLAGS=-DPIC CFLAGS=-fPIC CXXFLAGS=-fPIC LDFLAGS=-fPIC --disable-shared --enable-static
-make -j4
+make -j$(nproc)
 sudo make install
 popd
 
@@ -50,7 +50,7 @@ pushd c-capnproto
 git submodule update --init --recursive
 autoreconf -f -i -s
 CFLAGS="-fPIC" ./configure --prefix=/usr/local
-make -j4
+make -j$(nproc)
 sudo make install
 popd
 rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
@@ -58,8 +58,8 @@ rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 # clone and create virtualenv for openpilot
 cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
-git checkout v0.6.6 # Checkout v0.6.6
 pushd openpilot
+git checkout v0.6.6 # Checkout v0.6.6
 OPPATH=$(pwd) # Store directory for PYTHONPATH
 pipenv install # Install dependencies in a virtualenv
 
