@@ -38,6 +38,9 @@ sudo apt install -y \
     vim \
     wget
 
+# 0. v0.7 need this to build
+sudo apt install -y scons
+
 # 1. Core tools
 # some duplicate install kepping them for simplicity.
 sudo apt install -y git curl
@@ -78,14 +81,14 @@ rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz
 cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
 pushd openpilot
-git checkout v0.6.6 # Checkout v0.6.6
+git checkout v0.7 # Checkout v0.6.6
 OPPATH=$(pwd) # Store directory for PYTHONPATH
 pipenv install # Install dependencies in a virtualenv
 
 # 4. Clone tools within openpilot, and install dependencies
 git clone https://github.com/commaai/openpilot-tools.git tools
 pushd tools
-git checkout v0.6.6  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
+git checkout v0.7  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
 popd
 popd
 
@@ -110,8 +113,6 @@ sudo ~/openpilot/cereal/install_capnp.sh
 #popd
 #rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
 
-
-
 # 5. Add openpilot to your PYTHONPATH
 #echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc Using safe assignment instead. To avoid problems with path starting with colon.
 echo 'export PYTHONPATH='$OPPATH >> ~/.bashrc
@@ -122,11 +123,14 @@ sudo mkdir -v /data
 sudo mkdir -v /data/params
 sudo chown -v $USER /data/params
 
+# Go to openpilot directory
+cd ~/openpilot
+scons # Build 
+
 # Guide user
-pushd openpilot
 echo ""
 echo "##################################################################################"
-echo "Run these two commands inside the virtual environment to finish the installation"
+echo "Run these commands to finish the installation"
 echo "pipenv shell"
 echo "cd tools"
 echo "pip install -r requirements.txt"
