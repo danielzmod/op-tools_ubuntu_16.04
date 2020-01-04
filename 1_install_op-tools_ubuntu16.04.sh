@@ -1,5 +1,42 @@
 #!/bin/bash
 
+# 0. From dockerfile
+sudo apt update
+sudo apt install -y \
+    autoconf \
+    build-essential \
+    bzip2 \
+    clang \
+    cmake \
+    curl \
+    ffmpeg \
+    git \
+    libarchive-dev \
+    libbz2-dev \
+    libcurl4-openssl-dev \
+    libeigen3-dev \
+    libffi-dev \
+    libglew-dev \
+    libglib2.0-0 \
+    liblzma-dev \
+    libmysqlclient-dev \
+    libomp-dev \
+    libopencv-dev \
+    libssl-dev \
+    libtool \
+    libusb-1.0-0 \
+    libzmq5-dev \
+    locales \
+    ocl-icd-libopencl1 \
+    ocl-icd-opencl-dev \
+    opencl-headers \
+    python-dev \
+    python-pip \
+    screen \
+    sudo \
+    vim \
+    wget
+
 # 1. Core tools
 # some duplicate install kepping them for simplicity.
 sudo apt install git curl
@@ -79,6 +116,9 @@ source ~/.bashrc
 sudo mkdir -v /data
 sudo mkdir -v /data/params
 sudo chown -v $USER /data/params
+
+# sleep to allow console text to catch up
+sleep 5s
 
 # Activate shell
 pushd openpilot
