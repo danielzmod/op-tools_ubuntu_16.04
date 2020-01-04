@@ -10,7 +10,7 @@ During installation watch out for erros.
 
 ```bash
 git clone https://github.com/danielzmod/op-tools_ubuntu_16.04.git op_tools_installer
-cd op_tools_installercd
+cd op_tools_installer
 ./0_install_pyenv.sh
 ```
 
