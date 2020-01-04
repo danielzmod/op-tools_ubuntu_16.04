@@ -17,6 +17,8 @@ cd op_tools_installercd
 ```bash
 ./1_install_op-tools_ubuntu16.04.sh
 ```
+After running this **follow the instructions** on screen you need to do some manual steps aswell.
+
 
 When rebooting or starting a new terminal dont forget to activate the virtual environment by doing 
 ```bash
