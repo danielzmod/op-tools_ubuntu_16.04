@@ -1,4 +1,4 @@
-# op-tools_ubuntu16.04.3
+# op-tools_ubuntu16.04
 Install script for openpilot-tools for Ubuntu 16.04
 Makes it easier to get up and going with openpilot-tools.
 During installation watch out for erros. You'll be prompted to press enter on every apt install.
