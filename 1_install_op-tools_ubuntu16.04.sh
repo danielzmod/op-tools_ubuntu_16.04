@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Setup
+TAG=v0.7 # Tag to checkout
+
 # 0. From dockerfile
 sudo apt update
 sudo apt install -y \
@@ -37,9 +40,6 @@ sudo apt install -y \
     sudo \
     vim \
     wget
-
-# 0. v0.7 need this to build
-sudo apt install -y scons
 
 # 1. Core tools
 # some duplicate install kepping them for simplicity.
@@ -81,64 +81,44 @@ rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz
 cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
 pushd openpilot
-git checkout v0.7 # Checkout v0.6.6
+git checkout $TAG # Checkout version specified in TAG
 OPPATH=$(pwd) # Store directory for PYTHONPATH
-pipenv install # Install dependencies in a virtualenv
+pipenv install # Install dependencies in the virtualenv
 
 # 4. Clone tools within openpilot, and install dependencies
 git clone https://github.com/commaai/openpilot-tools.git tools
 pushd tools
-git checkout v0.7  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
+git checkout $TAG  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
 popd
 popd
 
-# 2. capnproto
+# 5. capnproto
 # install with the supplied script instead
 sudo ~/openpilot/cereal/install_capnp.sh
-#curl -O https://capnproto.org/capnproto-c++-0.6.1.tar.gz
-#tar xvf capnproto-c++-0.6.1.tar.gz
-#pushd capnproto-c++-0.6.1
-#./configure --prefix=/usr/local CPPFLAGS=-DPIC CFLAGS=-fPIC CXXFLAGS=-fPIC LDFLAGS=-fPIC --disable-shared --enable-static
-#make -j$(nproc)
-#sudo make install
-#popd
 
-#git clone https://github.com/commaai/c-capnproto.git
-#pushd c-capnproto
-#git submodule update --init --recursive
-#autoreconf -f -i -s
-#CFLAGS="-fPIC" ./configure --prefix=/usr/local
-#make -j$(nproc)
-#sudo make install
-#popd
-#rm -rf c-capnproto/ capnproto-c++-0.6.1 capnproto-c++-0.6.1.tar.gz
-
-# 5. Add openpilot to your PYTHONPATH
-#echo 'export PYTHONPATH="$PYTHONPATH:/home/openpilot/openpilot"' >> ~/.bashrc Using safe assignment instead. To avoid problems with path starting with colon.
+# 6. Add openpilot to your PYTHONPATH
 echo 'export PYTHONPATH='$OPPATH >> ~/.bashrc
 source ~/.bashrc
 
-# 6. Add folders to root
+# 7. Add folders to root
 sudo mkdir -v /data
 sudo mkdir -v /data/params
 sudo chown -v $USER /data/params
-
-# Go to openpilot directory
-cd ~/openpilot
-scons # Build 
 
 # Guide user
 echo ""
 echo "##################################################################################"
 echo "Run these commands to finish the installation"
+echo "cd ~/openpilot"
 echo "pipenv shell"
-echo "cd tools"
-echo "pip install -r requirements.txt"
+echo "scons"
+echo "pip install -r tools/requirements.txt"
 echo ""
 echo "###################################################################################"
 
 # Run manually
 #pipenv shell # Activate the virtualenv
+#scons
 #cd tools
 #pip install -r requirements.txt # Install openpilot-tools dependencies in virtualenv
 
