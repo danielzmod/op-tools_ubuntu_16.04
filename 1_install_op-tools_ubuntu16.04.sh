@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -o errexit # Exit on error
 # Setup
 TAG=v0.7 # Tag to checkout
 
@@ -41,28 +41,21 @@ sudo apt install -y \
     vim \
     wget
 
-# 1. Core tools
-# some duplicate install kepping them for simplicity.
-sudo apt install -y git curl
-
-# Install Python 3.7.3
+# 1. Install Python 3.7.3. 
 pyenv install 3.7.3
 pyenv global 3.7.3
 pip install --upgrade pip
 pip install pipenv
 
+# 2. Dependancies
 # ffmpeg
 sudo apt install -y ffmpeg libavformat-dev libavcodec-dev libavdevice-dev libavutil-dev libswscale-dev libavresample-dev libavfilter-dev
-
 # Build tools
 sudo apt install -y autoconf automake clang libtool pkg-config build-essential clang-3.8 
-
 # libarchive-dev
 sudo apt install -y libarchive-dev
-
 # python-qt4
 sudo apt install -y python-qt4
-
 # Install dependencies for matplotlib (needed to make pip install work in later step)
 sudo apt install -y libpng-dev libfreetype6-dev
 
@@ -77,7 +70,7 @@ sudo make install
 popd
 rm -rf zeromq-4.2.3 zeromq-4.2.3.tar.gz 
 
-# clone and create virtualenv for openpilot
+# 3. clone and create virtualenv for openpilot
 cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
 pushd openpilot
@@ -90,11 +83,11 @@ git clone https://github.com/commaai/openpilot-tools.git tools
 pushd tools
 git checkout $TAG  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
 popd
-popd
 
 # 5. capnproto
 # install with the supplied script instead
-sudo ~/openpilot/cereal/install_capnp.sh
+sudo cereal/install_capnp.sh
+popd
 
 # 6. Add openpilot to your PYTHONPATH
 echo 'export PYTHONPATH='$OPPATH >> ~/.bashrc
@@ -108,15 +101,18 @@ sudo chown -v $USER /data/params
 # Guide user
 echo ""
 echo "##################################################################################"
+echo " Automated part of installation finished successfully. "
+echo "##################################################################################"
 echo "Run these commands to finish the installation"
 echo "cd ~/openpilot"
 echo "pipenv shell"
-echo "scons"
 echo "pip install -r tools/requirements.txt"
+echo "scons"
 echo ""
 echo "###################################################################################"
 
 # Run manually
+#cd ~/openpilot
 #pipenv shell # Activate the virtualenv
 #scons
 #cd tools
