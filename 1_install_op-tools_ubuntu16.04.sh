@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit # Exit on error
 # Setup
-TAG=v0.7 # Tag to checkout
+TAG=v0.7.2 # Tag to checkout
 
 # 0. From dockerfile
 sudo apt update
@@ -21,12 +21,14 @@ sudo apt install -y \
     libffi-dev \
     libglew-dev \
     libgles2-mesa-dev \
+    libglfw3-dev \
     libglib2.0-0 \
     liblzma-dev \
     libmysqlclient-dev \
     libomp-dev \
     libopencv-dev \
     libssl-dev \
+    libsqlite3-dev \
     libtool \
     libusb-1.0-0-dev \
     libzmq5-dev \
@@ -75,14 +77,17 @@ cd # Clone into home directory root
 git clone https://github.com/commaai/openpilot
 pushd openpilot
 git checkout $TAG # Checkout version specified in TAG
+git submodule init
+git submodule update
 OPPATH=$(pwd) # Store directory for PYTHONPATH
 pipenv install # Install dependencies in the virtualenv
 
+# Removed from v0.7.1
 # 4. Clone tools within openpilot, and install dependencies
-git clone https://github.com/commaai/openpilot-tools.git tools
-pushd tools
-git checkout $TAG  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
-popd
+#git clone https://github.com/commaai/openpilot-tools.git tools
+#pushd tools
+#git checkout $TAG  # the tag must match the openpilot version you are using (see https://github.com/commaai/openpilot-tools/tags) TODO: make user supplied variable
+#popd
 
 # 5. capnproto
 # install with the supplied script instead
@@ -98,23 +103,15 @@ sudo mkdir -v /data
 sudo mkdir -v /data/params
 sudo chown -v $USER /data/params
 
+# 8. Install/and compile packages nescessary for openpilot tools.
+cd ~/openpilot
+pipenv run pip install -r tools/requirements.txt
+pipenv run scons
+
 # Guide user
 echo ""
 echo "##################################################################################"
 echo " Automated part of installation finished successfully. "
 echo "##################################################################################"
-echo "Run these commands to finish the installation"
-echo "cd ~/openpilot"
-echo "pipenv shell"
-echo "pip install -r tools/requirements.txt"
-echo "scons"
 echo ""
-echo "###################################################################################"
-
-# Run manually
-#cd ~/openpilot
-#pipenv shell # Activate the virtualenv
-#scons
-#cd tools
-#pip install -r requirements.txt # Install openpilot-tools dependencies in virtualenv
 

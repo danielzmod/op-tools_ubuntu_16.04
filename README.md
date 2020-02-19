@@ -2,8 +2,8 @@
 Install script for openpilot-tools for Ubuntu 16.04.
 Makes it easier to get up and going with openpilot-tools.
 
-Current version builds for v0.7.
-If you want an older version v0.6.6 is available (check tags for available versions).
+Current version builds for v0.7.2.
+If you want an older version v0.7,v0.6.6 is available (check tags for available versions).
 do a git checkout v0.6.6 to check out that install script.
 
 If something fails script will stop executing.
@@ -18,8 +18,12 @@ cd op_tools_installer
 ```bash
 ./1_install_op-tools_ubuntu16.04.sh
 ```
-After running this **follow the instructions** on screen you need to do some manual steps aswell.
+When the automated part is finished you can try if the tools work with the supplied log file.
 
+To test the installation you can run the supplied test script (try two times if it fails first time).
+```bash
+./2_test-replay.sh
+```
 
 When rebooting or starting a new terminal dont forget to activate the virtual environment by doing 
 ```bash
