@@ -22,6 +22,7 @@ When the automated part is finished you can try if the tools work with the suppl
 
 To test the installation you can run the supplied test script (try two times if it fails first time).
 ```bash
+source ~/.bashrc
 ./2_test-replay.sh
 ```
 
